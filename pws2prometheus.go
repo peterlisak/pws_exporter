@@ -150,6 +150,7 @@ func handleParams(w http.ResponseWriter, r *http.Request) {
 	var params = Params{}
 
 	// r.PostForm is a map of our POST form values
+	decoder.IgnoreUnknownKeys(true)
 	var err = decoder.Decode(&params, r.URL.Query())
 	if err != nil {
 		// Handle error
