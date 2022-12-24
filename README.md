@@ -1,4 +1,4 @@
-# pws2prometheus
+# pws_exporter
 
 This is GO server for getting weather information from your Personal Weather Station. It exposes the latest 
 received weather information as metrics for Prometheus scrapper.
