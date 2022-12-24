@@ -1,4 +1,4 @@
-module github.com/peterlisak/pws2prometheus
+module github.com/peterlisak/pws_exporter
 
 go 1.19
 
