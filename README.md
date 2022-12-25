@@ -56,3 +56,14 @@ NOTE: `soiltempf` and `soilmoisture` fields are used for data from other sensors
 ## TODO
 - basic configuration (e.g. port, etc.)
 - Help on `/`
+
+## Release new version
+
+```
+git commit -m "mymodule: changes for vX.Y.Z"
+git tag vX.Y.Z
+
+git push origin v0.1.0
+
+GOPROXY=proxy.golang.org go list -m github.com/peterlisak/pws_exporter@vX.Y.Z
+```
