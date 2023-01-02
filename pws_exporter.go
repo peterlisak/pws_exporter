@@ -130,14 +130,14 @@ var soilTempGauge = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Name: "pws_soil_temperature",
 		Help: "Soil temperature in Celsius",
-	}, []string{"station", "sensor"},
+	}, []string{"station", "channel"},
 )
 
 var soilMoistGauge = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
 		Name: "pws_soil_moisture",
 		Help: "Soil moisture in percentage",
-	}, []string{"station", "sensor"},
+	}, []string{"station", "channel"},
 )
 
 var decoder = schema.NewDecoder()

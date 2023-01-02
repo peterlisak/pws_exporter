@@ -54,6 +54,7 @@ Currently, these parametres based on [GARNI 1025 ARCUS](https://www.garnitechnol
 NOTE: `soiltempf` and `soilmoisture` fields are used for data from other sensors (not only soil sensors).
 
 ## TODO
+- `pws_last_update` metric
 - basic configuration (e.g. port, etc.)
 - Help on `/`
 
