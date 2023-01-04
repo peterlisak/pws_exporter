@@ -186,24 +186,24 @@ func handleParams(w http.ResponseWriter, r *http.Request) {
 	solarRadiationGauge.WithLabelValues(params.Id).Set(float64(params.Solarradiation))
 
 	soilMoistGauge.Reset()
-	if query.Has("Soilmoisture") {
+	if query.Has("soilmoisture") {
 		soilMoistGauge.WithLabelValues(params.Id, "1").Set(float64(params.Soilmoisture))
 	}
-	if query.Has("Soilmoisture2") {
+	if query.Has("soilmoisture2") {
 		soilMoistGauge.WithLabelValues(params.Id, "2").Set(float64(params.Soilmoisture2))
 	}
-	if query.Has("Soilmoisture3") {
+	if query.Has("soilmoisture3") {
 		soilMoistGauge.WithLabelValues(params.Id, "3").Set(float64(params.Soilmoisture3))
 	}
-	
+
 	soilTempGauge.Reset()
-	if query.Has("Soiltempf") {
+	if query.Has("soiltempf") {
 		soilTempGauge.WithLabelValues(params.Id, "1").Set(float64((params.Soiltempf - 32) / 1.8))
 	}
-	if query.Has("Soiltemp2f") {
+	if query.Has("soiltemp2f") {
 		soilTempGauge.WithLabelValues(params.Id, "2").Set(float64((params.Soiltemp2f - 32) / 1.8))
 	}
-	if query.Has("Soiltemp3f") {
+	if query.Has("soiltemp3f") {
 		soilTempGauge.WithLabelValues(params.Id, "3").Set(float64((params.Soiltemp3f - 32) / 1.8))
 	}
 	fmt.Fprint(w, "success")
