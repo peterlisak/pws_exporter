@@ -8,7 +8,6 @@ import (
 	"log"
 	"math"
 	"net/http"
-	"time"
 )
 
 type Params struct {
@@ -159,7 +158,8 @@ func handleParams(w http.ResponseWriter, r *http.Request) {
 
 	// r.PostForm is a map of our POST form values
 	decoder.IgnoreUnknownKeys(true)
-	var err = decoder.Decode(&params, r.URL.Query())
+	query := r.URL.Query()
+	var err = decoder.Decode(&params, query)
 	if err != nil {
 		// Handle error
 		log.Printf("Missing %s", err)
@@ -170,7 +170,7 @@ func handleParams(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("Params: %v", r.URL.Query())
 	//fmt.Fprintf(w, "Params: %v", r.URL.Query())
-	updatedGauge.WithLabelValues(params.Id).Set(float64(time.Now().Unix()))
+	updatedGauge.WithLabelValues(params.Id).SetToCurrentTime()
 	temperatureGauge.WithLabelValues(params.Id).Set(float64((params.Tempf - 32) / 1.8))
 	indoorTemperatureGauge.WithLabelValues(params.Id).Set(float64((params.Indoortempf - 32) / 1.8))
 	dewPointGauge.WithLabelValues(params.Id).Set(float64((params.Dewptf - 32) / 1.8))
@@ -184,17 +184,33 @@ func handleParams(w http.ResponseWriter, r *http.Request) {
 	barometricPressureGauge.WithLabelValues(params.Id).Set(math.Round(float64(params.Baromin) * 33.863886666667))
 	uvIndexGauge.WithLabelValues(params.Id).Set(float64(params.UV))
 	solarRadiationGauge.WithLabelValues(params.Id).Set(float64(params.Solarradiation))
-	soilTempGauge.WithLabelValues(params.Id, "1").Set(float64((params.Soiltempf - 32) / 1.8))
-	soilMoistGauge.WithLabelValues(params.Id, "1").Set(float64(params.Soilmoisture))
-	soilTempGauge.WithLabelValues(params.Id, "2").Set(float64((params.Soiltemp2f - 32) / 1.8))
-	soilMoistGauge.WithLabelValues(params.Id, "2").Set(float64(params.Soilmoisture2))
-	soilTempGauge.WithLabelValues(params.Id, "3").Set(float64((params.Soiltemp3f - 32) / 1.8))
-	soilMoistGauge.WithLabelValues(params.Id, "3").Set(float64(params.Soilmoisture3))
 
+	soilMoistGauge.Reset()
+	if query.Has("Soilmoisture") {
+		soilMoistGauge.WithLabelValues(params.Id, "1").Set(float64(params.Soilmoisture))
+	}
+	if query.Has("Soilmoisture2") {
+		soilMoistGauge.WithLabelValues(params.Id, "2").Set(float64(params.Soilmoisture2))
+	}
+	if query.Has("Soilmoisture3") {
+		soilMoistGauge.WithLabelValues(params.Id, "3").Set(float64(params.Soilmoisture3))
+	}
+	
+	soilTempGauge.Reset()
+	if query.Has("Soiltempf") {
+		soilTempGauge.WithLabelValues(params.Id, "1").Set(float64((params.Soiltempf - 32) / 1.8))
+	}
+	if query.Has("Soiltemp2f") {
+		soilTempGauge.WithLabelValues(params.Id, "2").Set(float64((params.Soiltemp2f - 32) / 1.8))
+	}
+	if query.Has("Soiltemp3f") {
+		soilTempGauge.WithLabelValues(params.Id, "3").Set(float64((params.Soiltemp3f - 32) / 1.8))
+	}
 	fmt.Fprint(w, "success")
 }
 
 func main() {
+	prometheus.MustRegister(updatedGauge)
 	prometheus.MustRegister(temperatureGauge)
 	prometheus.MustRegister(indoorTemperatureGauge)
 	prometheus.MustRegister(dewPointGauge)
