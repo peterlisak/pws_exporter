@@ -8,6 +8,7 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"time"
 )
 
 type Params struct {
@@ -39,6 +40,13 @@ type Params struct {
 	Soiltemp3f     float32
 	Soilmoisture3  int
 }
+
+var updatedGauge = prometheus.NewGaugeVec(
+	prometheus.GaugeOpts{
+		Name: "pws_last_update",
+		Help: "",
+	}, []string{"station"},
+)
 
 var temperatureGauge = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
@@ -162,6 +170,7 @@ func handleParams(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("Params: %v", r.URL.Query())
 	//fmt.Fprintf(w, "Params: %v", r.URL.Query())
+	updatedGauge.WithLabelValues(params.Id).Set(float64(time.Now().Unix()))
 	temperatureGauge.WithLabelValues(params.Id).Set(float64((params.Tempf - 32) / 1.8))
 	indoorTemperatureGauge.WithLabelValues(params.Id).Set(float64((params.Indoortempf - 32) / 1.8))
 	dewPointGauge.WithLabelValues(params.Id).Set(float64((params.Dewptf - 32) / 1.8))

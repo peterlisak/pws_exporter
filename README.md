@@ -13,6 +13,7 @@ Exposed endpoints:
 ## Supported parameters from PWS
 
 Currently, these parametres based on [GARNI 1025 ARCUS](https://www.garnitechnology.cz/garni-1025-arcus/) are supported.
+Based on [PWS Upload API](https://support.weather.com/s/article/PWS-Upload-Protocol?language=en_US).
 
 - `ID`: ID as registered by wunderground.com 
   - used as `station` label for all 
@@ -54,17 +55,17 @@ Currently, these parametres based on [GARNI 1025 ARCUS](https://www.garnitechnol
 NOTE: `soiltempf` and `soilmoisture` fields are used for data from other sensors (not only soil sensors).
 
 ## TODO
-- `pws_last_update` metric
 - basic configuration (e.g. port, etc.)
 - Help on `/`
 
 ## Release new version
 
 ```
-git commit -m "mymodule: changes for vX.Y.Z"
-git tag vX.Y.Z
+VERSION=vX.Y.Z
+git commit -m "mymodule: changes for $VERSION"
+git tag $VERSION
 
-git push origin v0.1.0
+git push origin $VERSION
 
-GOPROXY=proxy.golang.org go list -m github.com/peterlisak/pws_exporter@vX.Y.Z
+GOPROXY=proxy.golang.org go list -m github.com/peterlisak/pws_exporter@$VERSION
 ```
