@@ -106,7 +106,7 @@ func (h *Handler) HandleUpdatePWS(w http.ResponseWriter, r *http.Request) {
 		log.Printf("MQTT: %s: %s", h.Pws.Sensors[0].StateTopic(), string(msg))
 		Publish(h.MQTTClient, h.Pws.Sensors[0].StateTopic(), string(msg), false)
 	}
-	if query.Has("soilmoisture2") && query.Has("soiltempf2") {
+	if query.Has("soilmoisture2") && query.Has("soiltemp2f") {
 		msg, _ := json.Marshal(haas.TemperatureHumiditySensor{
 			(params.Soiltemp2f - 32) / 1.8,
 			uint(params.Soilmoisture2),
@@ -114,7 +114,7 @@ func (h *Handler) HandleUpdatePWS(w http.ResponseWriter, r *http.Request) {
 		log.Printf("MQTT: %s: %s", h.Pws.Sensors[1].StateTopic(), string(msg))
 		Publish(h.MQTTClient, h.Pws.Sensors[1].StateTopic(), string(msg), false)
 	}
-	if query.Has("soilmoisture3") && query.Has("soiltempf3") {
+	if query.Has("soilmoisture3") && query.Has("soiltemp3f") {
 		msg, _ := json.Marshal(haas.TemperatureHumiditySensor{
 			(params.Soiltemp3f - 32) / 1.8,
 			uint(params.Soilmoisture3),
