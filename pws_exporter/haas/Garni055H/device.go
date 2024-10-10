@@ -36,5 +36,5 @@ func (d *Device) Entities() []haas.Discovery {
 }
 
 func (d *Device) StateTopic() string {
-	return fmt.Sprintf("homeassistant/sensor/%s/%s", d.device.Name)
+	return fmt.Sprintf("homeassistant/sensor/%s/state", d.device.Name)
 }

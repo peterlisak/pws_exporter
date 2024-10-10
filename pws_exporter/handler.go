@@ -95,6 +95,7 @@ func (h *Handler) HandleUpdatePWS(w http.ResponseWriter, r *http.Request) {
 		uint(params.Humidity),
 		(params.Dewptf - 32) / 1.8,
 	})
+	log.Printf("MQTT: %s: %s", h.Pws.Pws.StateTopic(), string(msg))
 	Publish(h.MQTTClient, h.Pws.Pws.StateTopic(), string(msg), false)
 
 	if query.Has("soilmoisture") && query.Has("soiltempf") {
@@ -102,6 +103,7 @@ func (h *Handler) HandleUpdatePWS(w http.ResponseWriter, r *http.Request) {
 			(params.Soiltempf - 32) / 1.8,
 			uint(params.Soilmoisture),
 		})
+		log.Printf("MQTT: %s: %s", h.Pws.Sensors[0].StateTopic(), string(msg))
 		Publish(h.MQTTClient, h.Pws.Sensors[0].StateTopic(), string(msg), false)
 	}
 	if query.Has("soilmoisture2") && query.Has("soiltempf2") {
@@ -109,6 +111,7 @@ func (h *Handler) HandleUpdatePWS(w http.ResponseWriter, r *http.Request) {
 			(params.Soiltemp2f - 32) / 1.8,
 			uint(params.Soilmoisture2),
 		})
+		log.Printf("MQTT: %s: %s", h.Pws.Sensors[1].StateTopic(), string(msg))
 		Publish(h.MQTTClient, h.Pws.Sensors[1].StateTopic(), string(msg), false)
 	}
 	if query.Has("soilmoisture3") && query.Has("soiltempf3") {
@@ -116,6 +119,7 @@ func (h *Handler) HandleUpdatePWS(w http.ResponseWriter, r *http.Request) {
 			(params.Soiltemp3f - 32) / 1.8,
 			uint(params.Soilmoisture3),
 		})
+		log.Printf("MQTT: %s: %s", h.Pws.Sensors[2].StateTopic(), string(msg))
 		Publish(h.MQTTClient, h.Pws.Sensors[2].StateTopic(), string(msg), false)
 	}
 }
