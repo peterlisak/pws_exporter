@@ -59,7 +59,7 @@ type Device struct {
 	Manufacturer string `json:"manufacturer"`
 }
 
-func NewHumidityEntity(name string, uniqId string, topicPrefix string, device *Device) Discovery {
+func NewHumidityEntity(name string, uniqId string, jsonAttr string, topicPrefix string, device *Device) Discovery {
 	return Discovery{
 		topicPrefix,
 		name,
@@ -67,7 +67,7 @@ func NewHumidityEntity(name string, uniqId string, topicPrefix string, device *D
 		"%",
 		"humidity",
 		true,
-		"{{ value_json.humidity|default(0) }}",
+		fmt.Sprintf("{{ value_json.%s|default(0) }}", jsonAttr),
 		device,
 		pointer.ToString("~/availability"),
 		pointer.ToString(uniqId),
@@ -75,7 +75,7 @@ func NewHumidityEntity(name string, uniqId string, topicPrefix string, device *D
 	}
 }
 
-func NewTemperatureEntity(name string, uniqId string, topicPrefix string, device *Device) Discovery {
+func NewTemperatureEntity(name string, uniqId string, jsonAttr string, topicPrefix string, device *Device) Discovery {
 	return Discovery{
 		topicPrefix,
 		name,
@@ -83,7 +83,7 @@ func NewTemperatureEntity(name string, uniqId string, topicPrefix string, device
 		"°C",
 		"temperature",
 		true,
-		"{{ value_json.temperature|default(0) }}",
+		fmt.Sprintf("{{ '%%0.1f' value_json.%s|default(0) }}", jsonAttr),
 		device,
 		pointer.ToString("~/availability"),
 		pointer.ToString(uniqId),

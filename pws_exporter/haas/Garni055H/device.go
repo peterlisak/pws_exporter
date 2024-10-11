@@ -23,8 +23,8 @@ func New(id int) *Device {
 	topicPrefix := fmt.Sprintf("homeassistant/sensor/%s", device.Name)
 	return &Device{
 		*device,
-		haas.NewTemperatureEntity("temp", fmt.Sprintf("temp-%d_%d", id, 1), topicPrefix, device),
-		haas.NewHumidityEntity("hum", fmt.Sprintf("hum-%d_%d", id, 2), topicPrefix, device),
+		haas.NewTemperatureEntity("temp", fmt.Sprintf("temp-%d_%d", id, 1), "temperature", topicPrefix, device),
+		haas.NewHumidityEntity("hum", fmt.Sprintf("hum-%d_%d", id, 2), "humidity", topicPrefix, device),
 	}
 }
 

@@ -26,11 +26,11 @@ func New(id int) *Device {
 	topicPrefix := fmt.Sprintf("homeassistant/sensor/%s", device.Name)
 	return &Device{
 		*device,
-		haas.NewTemperatureEntity(fmt.Sprintf("in-temp-%d", id), fmt.Sprintf("in-temp-%d_%d", id, 1), topicPrefix, device),
-		haas.NewHumidityEntity(fmt.Sprintf("in-hum-%d", id), fmt.Sprintf("in-hum-%d_%d", id, 1), topicPrefix, device),
-		haas.NewTemperatureEntity(fmt.Sprintf("out-temp-%d", id), fmt.Sprintf("out-temp-%d_%d", id, 2), topicPrefix, device),
-		haas.NewHumidityEntity(fmt.Sprintf("out-hum-%d", id), fmt.Sprintf("hum-%d_%d", id, 2), topicPrefix, device),
-		haas.NewTemperatureEntity(fmt.Sprintf("dew-point-%d", id), fmt.Sprintf("dew-point-%d_%d", id, 1), topicPrefix, device),
+		haas.NewTemperatureEntity(fmt.Sprintf("in-temp-%d", id), fmt.Sprintf("in-temp-%d_%d", id, 1), "indoor_temperature", topicPrefix, device),
+		haas.NewHumidityEntity(fmt.Sprintf("in-hum-%d", id), fmt.Sprintf("in-hum-%d_%d", id, 1), "indoor_humidity", topicPrefix, device),
+		haas.NewTemperatureEntity(fmt.Sprintf("out-temp-%d", id), fmt.Sprintf("out-temp-%d_%d", id, 2), "outdoor_temperature", topicPrefix, device),
+		haas.NewHumidityEntity(fmt.Sprintf("out-hum-%d", id), fmt.Sprintf("hum-%d_%d", id, 2), "outdoor_humidity", topicPrefix, device),
+		haas.NewTemperatureEntity(fmt.Sprintf("dew-point-%d", id), fmt.Sprintf("dew-point-%d_%d", id, 1), "dew_point", topicPrefix, device),
 	}
 }
 
