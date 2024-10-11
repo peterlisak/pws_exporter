@@ -83,7 +83,7 @@ func NewTemperatureEntity(name string, uniqId string, jsonAttr string, topicPref
 		"°C",
 		"temperature",
 		true,
-		fmt.Sprintf("{{ '%%0.1f' value_json.%s|default(0) }}", jsonAttr),
+		fmt.Sprintf("{{ value_json.%s|default(0) }}", jsonAttr),
 		device,
 		pointer.ToString("~/availability"),
 		pointer.ToString(uniqId),
